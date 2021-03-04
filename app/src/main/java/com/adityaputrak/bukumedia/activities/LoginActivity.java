@@ -12,6 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.adityaputrak.bukumedia.R;
 import com.adityaputrak.bukumedia.admin.DashboardAdminActivity;
 
+import Api.ApiClient;
+import Model.LoginResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static EditText edtUsername, edtPassword;
@@ -39,12 +45,22 @@ public class LoginActivity extends AppCompatActivity {
         final String username = edtUsername.getText().toString().trim();
         final String password = edtPassword.getText().toString().trim();
 
-        if (username.equals("admin") && password.equals("admin")){
-            startActivity(new Intent(this, DashboardAdminActivity.class));
-            Toast.makeText(this, "Selamat datang admin", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "Password salah!", Toast.LENGTH_SHORT).show();
-        }
+        ApiClient.getServices().loginUser(username, password)
+                .enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().getStatus() == 1) {
+                                startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "ERROR " + t, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
 }

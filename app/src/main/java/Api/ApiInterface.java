@@ -3,6 +3,8 @@ package Api;
 import Model.DeleteBukuResponse;
 import Model.DetailBukuResponse;
 import Model.ListBukuResponse;
+import Model.LoginResponse;
+import Model.RegisterResponse;
 import Model.UpdateBukuResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,5 +45,21 @@ public interface ApiInterface {
             @Part MultipartBody.Part gambar,
             @Part("harga") RequestBody harga,
             @Part("stok") RequestBody stok
+    );
+
+    @FormUrlEncoded
+    @POST("register")
+    Call<RegisterResponse> registerUser(
+            @Field("nama") String nama,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("role") String role
+    );
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<LoginResponse> loginUser(
+            @Field("email") String email,
+            @Field("password") String password
     );
 }
