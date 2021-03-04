@@ -19,6 +19,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
     EditText edtNama, edtEmail, edtPassword;
     Button btnRegist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.etEmail);
         edtPassword = findViewById(R.id.etPassword);
         btnRegist = findViewById(R.id.btRegister);
-        
+
         btnRegist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,24 +43,30 @@ public class RegisterActivity extends AppCompatActivity {
         nama = edtNama.getText().toString();
         email = edtEmail.getText().toString();
         pass = edtPassword.getText().toString();
+        Toast.makeText(RegisterActivity.this, "KLIK", Toast.LENGTH_SHORT).show();
 
-        ApiClient.getServices().registerUser(nama, email, pass, "CUSTOMER")
-                .enqueue(new Callback<RegisterResponse>() {
-                    @Override
-                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                        if (response.isSuccessful()){
-                            if (response.body().getStatus() == 1){
-                                Toast.makeText(RegisterActivity.this, "Register success", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-
+        try {
+            ApiClient.getServices().registerUser(nama, email, pass, "CUSTOMER")
+                    .enqueue(new Callback<RegisterResponse>() {
+                        @Override
+                        public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().getStatus() == 1) {
+                                    Toast.makeText(RegisterActivity.this, "Register success", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "Error " + t, Toast.LENGTH_SHORT).show();                    }
-                });
+                        @Override
+                        public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                            Toast.makeText(RegisterActivity.this, "Error " + t, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (Exception e) {
+            Toast.makeText(RegisterActivity.this, "Register failed " + e, Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

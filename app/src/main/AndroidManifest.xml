@@ -16,18 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BukuMedia"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.DashboardUserActivity"></activity>
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.LoginActivity$RegisterActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".activities.DashboardUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.RegisterActivity" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".admin.AddBukuActivity" />
         <activity android:name=".admin.DetailActivity" />
         <activity android:name=".admin.DashboardAdminActivity" />

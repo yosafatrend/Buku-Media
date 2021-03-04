@@ -50,7 +50,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("register")
     Call<RegisterResponse> registerUser(
-            @Field("nama") String nama,
+            @Field("name") String nama,
             @Field("email") String email,
             @Field("password") String password,
             @Field("role") String role
